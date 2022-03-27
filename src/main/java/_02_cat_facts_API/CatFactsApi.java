@@ -13,7 +13,7 @@ Use the meow facts API to show the user a random cat fact.
 Make an initial request, saving the response as a String to facilitate making your Plain Old Java Objects to represent the request.
 Then, write a method that will save the response as an instance of your object, returning the fact from that object.
 
-A swagger page for this very simple API can be found here: https://app.swaggerhub.com/apis-docs/whiterabbit8/meowfacts/1.0.0
+A swagger page for this very simple API can be found here: https://app.sw5aggerhub.com/apis-docs/whiterabbit8/meowfacts/1.0.0
 
  */
 
@@ -72,6 +72,7 @@ public class CatFactsApi {
 
         //Use block() to collect the response into a java object using the class you just created
     	  CatFactsApi catsearch = new CatFactsApi();
+
           catsearch.testRequest();
         //return the Object
         return null;
@@ -82,8 +83,9 @@ public class CatFactsApi {
     public String findCatFact(){
         //use the getCatFact method to retrieve a cat fact
 
+       String fact =  getCatFact();
         //return the first (and only) String in the Arraylist of data in the response
-        return null;
+        return fact;
     }
 
     public void setWebClient(WebClient webClient) {
