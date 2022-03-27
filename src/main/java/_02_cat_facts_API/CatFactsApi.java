@@ -9,12 +9,14 @@ import reactor.core.publisher.Mono;
 /*
 
 Use the meow facts API to show the user a random cat fact.
+
 Make an initial request, saving the response as a String to facilitate making your Plain Old Java Objects to represent the request.
 Then, write a method that will save the response as an instance of your object, returning the fact from that object.
 
 A swagger page for this very simple API can be found here: https://app.swaggerhub.com/apis-docs/whiterabbit8/meowfacts/1.0.0
 
  */
+
 public class CatFactsApi {
 
     private static final String baseUrl = "https://meowfacts.herokuapp.com/";
@@ -35,6 +37,13 @@ public class CatFactsApi {
         This request doesn't require url parameters, so you can omit the .uri() method call entirely
         */
 
+         Mono<String> stringMono = webClient
+         		.get()
+                .retrieve()
+                .bodyToMono(String.class);
+    	 String response = stringMono.block();
+
+         System.out.println(response);
 
         //Collect the response from the Mono object
 
@@ -50,7 +59,7 @@ public class CatFactsApi {
         and place it in the cat_facts_API.data_transfer_objects package.
         Select:
         Class name: CatWrapper
-        Target Language = java
+        Target Language = java	
         Source Type = JSON
         Annotation Style = Gson
         */
@@ -62,7 +71,8 @@ public class CatFactsApi {
         //data_transfer_objects package (CatWrapper)
 
         //Use block() to collect the response into a java object using the class you just created
-
+    	  CatFactsApi catsearch = new CatFactsApi();
+          catsearch.testRequest();
         //return the Object
         return null;
 
