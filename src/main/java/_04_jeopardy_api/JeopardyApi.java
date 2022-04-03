@@ -33,19 +33,12 @@ public class JeopardyApi {
 
         //1  Use the WebClient code from the previous exercises to make the request:
         //Note:
-        Mono<String> stringMono = webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .queryParam("q", "pizza")
-                        .queryParam("sortBy", "popularity")
-                        .queryParam("apiKey", apiKey)
-                        .queryParam(value)
-                        .build())
-                .retrieve()
-                .bodyToMono(Clue[].class);
+        this.webClient = WebClient
+                .builder()
+                .baseUrl(baseUrl)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 
-        String response = stringMono.block();
-
-        System.out.println(response);
+                .build();
         //The base URL has already been provided, but we we need to take the "value" parameter passed into
         //this method and supply it as a query parameter with the name of "value".  This allows us to retrieve a question
         //with the specified point value.
@@ -53,6 +46,13 @@ public class JeopardyApi {
         //Make sure to save the response as type Clue[].class in the bodyToMono() method call
 
         //
+        Mono<String> stringMono = webClient
+                .get()
+                .retrieve()
+                .bodyToMono(String.Clue[].class);
+        String response = stringMono.block();
+
+        System.out.println(response);
 
         Random random = new Random();
         random.nextInt();
