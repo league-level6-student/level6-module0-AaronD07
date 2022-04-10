@@ -17,7 +17,7 @@ To simplify things a little bit, we will just ask the user one question from eac
 
 public class JeopardyApi {
 
-    private final WebClient webClient;
+    private WebClient webClient;
 
     private static final String baseUrl = "http://jservice.io/api/clues";
 
@@ -33,12 +33,6 @@ public class JeopardyApi {
 
         //1  Use the WebClient code from the previous exercises to make the request:
         //Note:
-        this.webClient = WebClient
-                .builder()
-                .baseUrl(baseUrl)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-
-                .build();
         //The base URL has already been provided, but we we need to take the "value" parameter passed into
         //this method and supply it as a query parameter with the name of "value".  This allows us to retrieve a question
         //with the specified point value.
@@ -46,21 +40,25 @@ public class JeopardyApi {
         //Make sure to save the response as type Clue[].class in the bodyToMono() method call
 
         //
-        Mono<String> stringMono = webClient
+        Mono<Clue[]> stringMono = webClient
                 .get()
+
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("value", value)
+                        .build())
                 .retrieve()
-                .bodyToMono(String.Clue[].class);
-        String response = stringMono.block();
+                .bodyToMono(Clue[].class);
+        Clue[] response = stringMono.block();
 
         System.out.println(response);
 
         Random random = new Random();
-        random.nextInt();
+       int num = random.nextInt();
         //Get a random number less than the size of the Clue array
 
         //3
         //return the clue at the random index you just created
 
-        return Clue[9];
+        return Clue[num];
     }
 }
