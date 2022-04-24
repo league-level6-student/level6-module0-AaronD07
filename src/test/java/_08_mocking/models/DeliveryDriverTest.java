@@ -29,10 +29,12 @@ class DeliveryDriverTest {
     @Test
     void itShouldWasteTime() {
         //given
-
+boolean expected = true;
+when(phone.browseCatMemes()).thenReturn(true);
         //when
-
+boolean actual = deliveryDriver.wasteTime();
         //then
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -50,10 +52,13 @@ boolean expected = true;
     @Test
     void itShouldContactCustomer() {
         //given
-
+String phoneNumber = "7604950323";
+boolean expected = true;
+        when(phone.call(phoneNumber)).thenReturn(true);
         //when
-
+boolean actual = deliveryDriver.contactCustomer(phoneNumber);
         //then
+        assertEquals(expected, actual);
     }
 
 }
