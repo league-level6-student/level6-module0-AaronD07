@@ -40,25 +40,24 @@ public class JeopardyApi {
         //Make sure to save the response as type Clue[].class in the bodyToMono() method call
 
         //
-        Mono<Clue[]> stringMono = webClient
-                .get()
 
+        Clue[] clues = webClient
+                .get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("value", value)
                         .build())
                 .retrieve()
-                .bodyToMono(Clue[].class);
-        Clue[] response = stringMono.block();
+                .bodyToMono(Clue[].class)
+                .block();
 
-        System.out.println(response);
 
         Random random = new Random();
-       int num = random.nextInt();
+       int num = random.nextInt(clues.length);
         //Get a random number less than the size of the Clue array
 
         //3
         //return the clue at the random index you just created
 
-        return Clue[num];
+        return clues[num];
     }
 }
