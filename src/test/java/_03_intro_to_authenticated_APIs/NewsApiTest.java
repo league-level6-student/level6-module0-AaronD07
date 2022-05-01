@@ -2,7 +2,6 @@ package _03_intro_to_authenticated_APIs;
 
 import _03_intro_to_authenticated_APIs.data_transfer_objects.ApiExampleWrapper;
 import _03_intro_to_authenticated_APIs.data_transfer_objects.Article;
-import com.sun.tools.javac.util.DefinedBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,6 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient.RequestHeaders
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Mono;
+import java.util.ArrayList;
 
 import java.net.URI;
 import java.util.Collections;
@@ -72,12 +72,34 @@ ApiExampleWrapper expected = new ApiExampleWrapper();
 
     @Test
     void itShouldFindStory(){
-        //given
-String topic = "pasta";
+        String topic = "pasta";
+        String title = "Best Kinds of Pasta";
+        String content = "Gnocchi is the best";
+        String url = "www.italy.com/articles/best-kinds-of-pasta/";
+        String expectedMessage = title + " -\n" + content + "\nFull article: " + url;
+
+        ApiExampleWrapper wrapper = new ApiExampleWrapper();
+
+        Article article = new Article();
+        article.setTitle(title);
+        article.setContent(content);
+        article.setUrl(url);
+
+        List<Article> articles = new ArrayList<Article>();
+        articles.add(article);
+        wrapper.setArticles(articles);
+
+        when(client.get()).thenReturn(headersUriSpec);
+        when(headersUriSpec.uri((Function<UriBuilder, URI>) any())).thenReturn(headersSpec);
+        when(headersSpec.retrieve()).thenReturn(responseSpec);
+        when(responseSpec.bodyToMono(ApiExampleWrapper.class)).thenReturn(mono);
+        when(mono.block()).thenReturn(wrapper);
 
         //when
+        String actualMessage = newsApi.findStory(topic);
 
         //then
+        assertEquals(expectedMessage, actualMessage);
     }
 
 
