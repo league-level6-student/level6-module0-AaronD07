@@ -16,45 +16,64 @@ import static org.mockito.Mockito.*;
 When writing the tests, mock both the Rocketship and Astronaut for the sake of practice.
  */
 class LeagueOfAmazingAstronautsTest {
+    @Mock
+            Rocketship ship;
+    @Mock
+            Astronaut astronaut;
 
     LeagueOfAmazingAstronauts underTest = new LeagueOfAmazingAstronauts();
 
     @BeforeEach
     void setUp() {
-
+        MockitoAnnotations.openMocks(this);
+        underTest = new LeagueOfAmazingAstronauts();
+        underTest.setRocketship(ship);
     }
 
     @Test
     void itShouldPrepareAstronaut() {
         //given
+        when(astronaut.isTrained()).thenReturn(true);
 
         //when
-
+        underTest.prepareAstronaut(astronaut);
         //then
+        verify(astronaut, times(1)).train();
+        verify(ship, times(1)).loadOccupant(astronaut);
     }
 
     @Test
     void itShouldLaunchRocket() {
         //given
-
+        String destination = "Mars";
+        int milesToDestination = 89000000;
         //when
+        when(ship.isLoaded()).thenReturn(true);
+        underTest.launchRocket(destination);
 
         //then
+        verify(ship, times(1)).setDestination(destination, milesToDestination);
+        verify(ship, times(1)).launch();
     }
 
 
     @Test
     void itShouldThrowWhenDestinationIsUnknown() {
         //given
+        String destination = "Mars";
 
+        when(ship.isLoaded()).thenReturn(true);
         //when
         //then
+
     }
 
     @Test
     void itShouldThrowNotLoaded() {
         //given
+        String destination = "Venus";
 
+        when(ship.isLoaded()).thenReturn(false);
         //when
         //then
 
