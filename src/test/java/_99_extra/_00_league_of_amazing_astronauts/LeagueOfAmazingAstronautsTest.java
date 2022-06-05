@@ -5,10 +5,13 @@ import _99_extra._00_league_of_amazing_astronauts.models.Astronaut;
 import _99_extra._00_league_of_amazing_astronauts.models.Rocketship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /*
@@ -46,7 +49,7 @@ class LeagueOfAmazingAstronautsTest {
     void itShouldLaunchRocket() {
         //given
         String destination = "Mars";
-        int milesToDestination = 89000000;
+        int milesToDestination = 68000000;
         //when
         when(ship.isLoaded()).thenReturn(true);
         underTest.launchRocket(destination);
@@ -75,6 +78,8 @@ class LeagueOfAmazingAstronautsTest {
 
         when(ship.isLoaded()).thenReturn(false);
         //when
+        Exception e = assertThrows(Exception.class, () -> underTest.launchRocket(destination));
+        assertEquals("Rocketship is not loaded", e.getMessage());
         //then
 
     }
